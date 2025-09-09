@@ -133,9 +133,10 @@ def results():
 if __name__ == "__main__":
     app.run(debug=True)
 
-
 import os
 
 if __name__ == "__main__":
+    # Get the port Render assigns, default to 5000 locally
     port = int(os.environ.get("PORT", 5000))
+    # Bind to 0.0.0.0 to allow external access
     app.run(host="0.0.0.0", port=port)
