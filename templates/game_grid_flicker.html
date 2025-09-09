@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ game_name }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        body {
+            background-color: #E6E6FA;
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        .center-container {
+            max-width: 700px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #F8F8FF;
+            border-radius: 15px;
+        }
+        #grid {
+            display: grid;
+            grid-template-columns: repeat(4, 80px);
+            grid-gap: 10px;
+            justify-content: center;
+            margin-top: 30px;
+        }
+        .cell {
+            width: 80px;
+            height: 80px;
+            background-color: #9370DB;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .flash {
+            background-color: #FFD700 !important;
+        }
+        h1, h2 {
+            color: #4B0082;
+        }
+        .game-over {
+            font-size: 36px;
+            color: #FF0000;
+            margin-bottom: 10px;
+        }
+        .final-score {
+            font-size: 28px;
+            color: #4B0082;
+            margin-bottom: 20px;
+        }
+        button {
+            font-size: 20px;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            background-color: #9370DB;
+            color: white;
+            cursor: pointer;
+        }
+        #suggestion, #tips {
+            font-size: 18px;
+            color: #4B0082;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+<div class="center-container">
+    <h1>{{ game_name }}</h1>
+    <h2 id="score">Score: 0</h2>
+    <div id="grid"></div>
+    <br>
+    <div id="gameOverContainer"></div>
+    <div id="suggestion"></div>
+    <div id="tips"></div>
+</div>
+<script src="{{ url_for('static', filename='js/game_grid_flicker.js') }}"></script>
+</body>
+</html>

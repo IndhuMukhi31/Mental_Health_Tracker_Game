@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard - Mental Health Tracker</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        body {
+            background-color: #E6E6FA; /* Pastel lavender */
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        .center-container {
+            max-width: 900px;
+            margin: 50px auto;
+            padding: 30px;
+            background-color: #F8F8FF;
+            border-radius: 15px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            font-size: 36px;
+            color: #4B0082;
+        }
+        h2 {
+            font-size: 28px;
+            color: #6A5ACD;
+            margin-bottom: 30px;
+        }
+        .game-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
+        .game-grid a {
+            flex: 0 0 28%; /* 3 buttons per row with gap */
+        }
+        button {
+            width: 100%;
+            font-size: 20px;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            background-color: #9370DB;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #7B68EE;
+        }
+        a {
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+<div class="center-container">
+    <h1>Welcome {{ username }}!</h1>
+    <h2>Select a Game to Play</h2>
+    <div class="game-grid">
+        {% for game in games %}
+            <a href="{{ url_for('game_instruction', game_name=game) }}">
+                <button>{{ game }}</button>
+            </a>
+        {% endfor %}
+    </div>
+</div>
+</body>
+</html>

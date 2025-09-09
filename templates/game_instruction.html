@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ game_name }} - Instructions</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        body {
+            background-color: #E6E6FA; /* Pastel lavender */
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        .center-container {
+            max-width: 700px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #F8F8FF;
+            border-radius: 15px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            font-size: 36px;
+            color: #4B0082;
+        }
+        p {
+            font-size: 20px;
+            margin: 20px 0;
+        }
+        button {
+            font-size: 18px;
+            padding: 12px 25px;
+            margin: 10px;
+            border: none;
+            border-radius: 8px;
+            background-color: #9370DB;
+            color: white;
+            cursor: pointer;
+        }
+        button:disabled {
+            background-color: #D3D3D3;
+            cursor: not-allowed;
+        }
+        a {
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+<div class="center-container">
+    <h1>{{ game_name }}</h1>
+    <p>{{ instruction }}</p>
+
+    <!-- Start Game button for all 10 games -->
+    {% if game_name == "Memory Displacement" %}
+        <a href="{{ url_for('play_memory_displacement') }}">
+            <button>Start Game</button>
+        </a>
+
+    {% elif game_name == "Grid Flicker Recall" %}
+        <a href="{{ url_for('play_grid_flicker_recall') }}">
+            <button>Start Game</button>
+        </a>
+
+    {% elif game_name == "Color Dice Match" %}
+        <a href="{{ url_for('play_color_dice_match') }}">
+            <button>Start Game</button>
+        </a>
+
+    {% elif game_name == "Mirrored Path" %}
+        <a href="{{ url_for('play_mirrored_path') }}">
+            <button>Start Game</button>
+        </a>
+        
+    {% else %}
+        <button disabled>Coming Soon</button>
+    {% endif %}
+
+    <br><br>
+    <a href="{{ url_for('dashboard') }}">
+        <button>Back to Dashboard</button>
+    </a>
+</div>
+</body>
+</html>

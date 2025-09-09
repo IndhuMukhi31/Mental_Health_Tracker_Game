@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Mirrored Path</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; margin-top: 50px; }
+        .arrow { font-size: 50px; margin: 5px; display: inline-block; width: 50px; }
+        .option { display: inline-block; margin: 10px; padding: 10px; border-radius: 8px; background-color: #9370DB; color: white; font-size: 30px; cursor: pointer; }
+        .option:hover { background-color: #7B68EE; }
+        #result { font-size: 24px; margin-top: 20px; color: red; }
+    </style>
+</head>
+<body>
+    <h2>Mirrored Path</h2>
+    <p id="instruction">Select the correct opposite sequence of arrows shown. One mistake = Game Over. Time: 60 sec</p>
+
+    <h3>Time Left: <span id="timer">60</span>s</h3>
+    <h3>Score: <span id="score">0</span></h3>
+
+    <div id="arrows"></div>
+    <div id="buttons"></div>
+
+    <h2 id="result"></h2>
+
+<script>
+    const arrows = ["↑", "↓", "←", "→"];
+    const opposite = { "↑":"↓", "↓":"↑", "←":"→", "→":"←" };
+    let score = 0;
+    let timeLeft = 60;
+    let gameOver = false;
+
+    const arrowsEl = document.getElementById("arrows");
+    const buttonsEl = document.getElementById("buttons");
+    const timerEl = document.getElementById("timer");
+    const scoreEl = document.getElementById("score");
+    const resultEl = document.getElementById("result");
+
+    function shuffleArray(array) {
+        return array.sort(() => 0.5 - Math.random());
+    }
+
+    function nextRound() {
+        if (gameOver) return;
+
+        // Generate 4 random arrows
+        let currentArrows = [];
+        for (let i = 0; i < 4; i++) {
+            currentArrows.push(arrows[Math.floor(Math.random() * arrows.length)]);
+        }
+
+        // Display arrows
+        arrowsEl.innerHTML = "";
+        currentArrows.forEach(a => {
+            let span = document.createElement("span");
+            span.textContent = a;
+            span.className = "arrow";
+            arrowsEl.appendChild(span);
+        });
+
+        // Correct option (opposite sequence)
+        let correctOption = currentArrows.map(a => opposite[a]);
+
+        // Generate 3 random wrong options
+        let options = [correctOption];
+        while (options.length < 4) {
+            let wrong = [];
+            for (let i = 0; i < 4; i++) {
+                wrong.push(arrows[Math.floor(Math.random() * arrows.length)]);
+            }
+            if (!options.some(o => o.join('') === wrong.join(''))) {
+                options.push(wrong);
+            }
+        }
+
+        options = shuffleArray(options);
+
+        // Display options as buttons
+        buttonsEl.innerHTML = "";
+        options.forEach(opt => {
+            let btn = document.createElement("div");
+            btn.className = "option";
+            btn.textContent = opt.join(' ');
+            btn.onclick = () => checkAnswer(opt, correctOption);
+            buttonsEl.appendChild(btn);
+        });
+    }
+
+    function checkAnswer(selected, correct) {
+        if (gameOver) return;
+
+        if (selected.join('') === correct.join('')) {
+            score += 10; // 1 correct = 10 points
+            scoreEl.textContent = score;
+            nextRound();
+        } else {
+            endGame("❌ Wrong choice! Game Over");
+        }
+    }
+
+    function startTimer() {
+        let timer = setInterval(() => {
+            if (gameOver) { clearInterval(timer); return; }
+            timeLeft--;
+            timerEl.textContent = timeLeft;
+            if (timeLeft <= 0) {
+                clearInterval(timer);
+                endGame("⏳ Time's up!");
+            }
+        }, 1000);
+    }
+
+    function endGame(message) {
+        gameOver = true;
+        arrowsEl.innerHTML = "";
+        buttonsEl.innerHTML = "";
+        resultEl.innerHTML = `<h1 style="margin-bottom:20px;">Game Over!</h1><h2>Final Score: ${score}</h2><br><a href="/dashboard"><button style="font-size:20px;padding:10px 20px;">Back to Dashboard</button></a>`;
+    }
+
+    // Start game
+    nextRound();
+    startTimer();
+</script>
+</body>
+</html>
